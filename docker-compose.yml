@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  fluent-bit:
+    image: fluent/fluent-bit:latest
+    container_name: fluent-bit
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
+      - ./parsers.conf:/fluent-bit/etc/parsers.conf:ro
+      - ./fluentbit-db:/fluentbit-db   # writable volume for SQLite DB
+    ports:
+      - "2020:2020"  # Expose HTTP monitoring API
+    environment:
+      - TZ=UTC
+    restart: always
